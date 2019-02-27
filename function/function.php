@@ -1,4 +1,5 @@
 <?php
+define("PERMISO", "077");
 function sanitizaInput($v){
     if (isset($v)){
         switch (gettype($v)){
@@ -12,7 +13,7 @@ function sanitizaInput($v){
                 $dato = (double)$v;
                 break;
             case "string":
-                $dato = (string)strtoupper(trim(htmlentities($v, ENT_QUOTES, "UTF-8")));
+                $dato = (string)trim(htmlentities($v, ENT_QUOTES, "UTF-8"));
                 break;
             case "array":
                 $dato = (array)$v;
@@ -76,6 +77,7 @@ function preferenciasDefecto(){
     setcookie("colorSecundarioDark", "#bcbcbc");
     setcookie("colorPrimarioText", "#ffffff");
     setcookie("colorSecundarioText", "#000000");
+    setcookie("logoEmpresa", "img/spidergwen.png");
 }
 
 function limpiarPreferencias(){
@@ -87,4 +89,102 @@ function limpiarPreferencias(){
     setcookie("colorSecundarioDark", "#bcbcbc", time() - 3600);
     setcookie("colorPrimarioText", "#ffffff", time() - 3600);
     setcookie("colorSecundarioText", "#000000", time() - 3600);
+}
+
+function crearDirectorio($dir, $permiso = false, $ruta = false){
+    if ($ruta != false){
+        $rutaCom = $ruta.'\\'.$dir;
+    } else {
+        $rutaCom = __DIR__.'\\'.$dir;
+    }
+
+    if ($permiso!= false){
+        $permiso = PERMISO;
+    }
+    
+    if(!file_exists($rutaCom)){
+      mkdir($rutaCom,$permiso); 
+    } else {
+        $rutaCom = false;
+    }
+    return $rutaCom;
+}
+
+function crearArchivo($file, $permiso,  $ruta = false){
+    if($ruta!=false){
+        $rutaCom = $ruta.'\\'.$file;
+    }else{
+        $rutaCom = __DIR__.'\\temp'.$file;
+        $ruta = $rutaCom;
+    }
+
+    if(!file_exists($ruta)){
+         $ruta = crearDirectorio($ruta,PERMISO,__DIR__);
+         $rutaCom = $ruta.'\\'.$file;
+    }
+    $archivo = fopen($rutaCom,  $permiso);
+    //fwrite($archivo,$contenido."\\n","r");
+    $flag = true;
+    fclose($archivo);
+    return $flag;
+}
+
+function leerArchivo($file, $ruta = false){
+    if($ruta!=false){
+        $rutaCom = $ruta.'\\'.$file;
+    }else{
+        $rutaCom = __DIR__.'\\temp'.$file;
+        $ruta = $rutaCom;
+    }
+    if(file_exists($rutaCom)){
+        $archivo = fopen($rutaCom,  "r");
+        while(!feof($archivo)) {
+          $contenido[]=fgets($archivo);  
+        } 
+        fclose($archivo);   
+    }else{
+        $contenido[]=null;
+    }
+    return $contenido;
+}
+
+function escribirArchivo($file, $contenido, $ruta = false){
+    if($ruta){
+        $rutaCom = $ruta.'\\'.$file;
+    }else{
+        $rutaCom = __DIR__.'\\temp'.$file;
+        $ruta = $rutaCom;
+    }
+
+    if(file_exists($rutaCom)){
+        $archivo = fopen($rutaCom,  "a+");
+        fwrite($archivo,$contenido);
+        fwrite($archivo,"\r\n");
+        fclose($archivo); 
+        $flag = true;
+    }else{
+        if(crearArchivo($file, "a+", $ruta)){
+           $flag = escribirArchivo($file, $contenido, $ruta);
+        } else{
+           $flag = false;
+        }
+    }
+    return $flag;
+}
+
+function borrarArchivo($file, $ruta = false){
+    if($ruta!=false){
+        $rutaCom = $ruta.'\\'.$file;
+    }else{
+        $rutaCom = __DIR__.'\\temp'.$file;
+        $ruta = $rutaCom;
+    }
+    
+    if(file_exists($rutaCom)){
+        unlink($rutaCom);
+        $flag = true;
+    } else {
+        $flag = false;
+    }
+    return $flag;
 }

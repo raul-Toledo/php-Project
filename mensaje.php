@@ -12,12 +12,13 @@ session_start();
         <meta charset="UTF-8">
         <title></title>
     </head>
-    <body style="background-color:<?=$_COOKIE['colorPrimario'];?> ">
+    <body style="background-color:<?=$_COOKIE['colorSecundarioDark'];?> ">
         <h1><?php
             echo $_SESSION["nomCom"];
             echo "<br>";
             echo htmlentities($_REQUEST["msj"], ENT_QUOTES, "UTF-8")// put your code here
         ?>
         </h1>
+        <image src="<?=$_COOKIE['logoEmpresa'];?>"/>
     </body>
 </html>

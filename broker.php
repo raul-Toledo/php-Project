@@ -36,6 +36,6 @@
             $uriPagina="mensaje.php";
             break;
     }
-    //navegar($uriPagina, $strParam);
-    //exit();
+    navegar($uriPagina, $strParam);
+    exit();
 
