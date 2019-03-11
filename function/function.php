@@ -1,5 +1,5 @@
 <?php
-define("PERMISO", "077");
+define("PERMISO", "0777");
 function sanitizaInput($v){
     if (isset($v)){
         switch (gettype($v)){
@@ -92,13 +92,13 @@ function limpiarPreferencias(){
 }
 
 function crearDirectorio($dir, $permiso = false, $ruta = false){
-    if ($ruta != false){
+    if ($ruta){
         $rutaCom = $ruta.'\\'.$dir;
     } else {
         $rutaCom = __DIR__.'\\'.$dir;
     }
 
-    if ($permiso!= false){
+    if ($permiso){
         $permiso = PERMISO;
     }
     
@@ -111,7 +111,7 @@ function crearDirectorio($dir, $permiso = false, $ruta = false){
 }
 
 function crearArchivo($file, $permiso,  $ruta = false){
-    if($ruta!=false){
+    if($ruta){
         $rutaCom = $ruta.'\\'.$file;
     }else{
         $rutaCom = __DIR__.'\\temp'.$file;
@@ -130,7 +130,7 @@ function crearArchivo($file, $permiso,  $ruta = false){
 }
 
 function leerArchivo($file, $ruta = false){
-    if($ruta!=false){
+    if($ruta){
         $rutaCom = $ruta.'\\'.$file;
     }else{
         $rutaCom = __DIR__.'\\temp'.$file;
@@ -173,7 +173,7 @@ function escribirArchivo($file, $contenido, $ruta = false){
 }
 
 function borrarArchivo($file, $ruta = false){
-    if($ruta!=false){
+    if($ruta){
         $rutaCom = $ruta.'\\'.$file;
     }else{
         $rutaCom = __DIR__.'\\temp'.$file;

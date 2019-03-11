@@ -9,18 +9,29 @@
     </head>
     <body>
         <?php
-        //var_dump(crearDirectorio("demo","077",__DIR__));
-        $ruta = __DIR__.'\function\demo';
-        $file = "prueba.txt";
-        $contenido = "spiderman 2";
+        //$ruta = __DIR__.'\data';
+        //$file = "datos.txt";
+        //$contenido = "spider-verse";
         //echo $ruta;
+        //var_dump(crearDirectorio("data","0777",__DIR__));
         //var_dump(crearArchivo($file, "a+", $ruta ));
-
         //var_dump(leerArchivo($file, $ruta));
-
-        //var_dump(borrarArchivo($file, $ruta));
+        //var_dump(borrarArchivo($file, $ruta)); 
+        //$flag = escribirArchivo($file, $contenido, $ruta);
+        ?>
+        <?php 
+            $ruta = './img';
+            $dir = opendir($ruta);
+            if ($dir){
+                while(($file = readdir($dir)) !== false){
+                    //if($file != '.' && $file != '..'){
+                    if(strlen($file) > 2){
+                      echo "<img src='img/$file' width='200px'/><br/>";
+                      //var_dump($file);
+                    }
+                }
+            }
         
-        $flag = escribirArchivo($file, $contenido, $ruta);
         ?>
     </body>
 </html>
