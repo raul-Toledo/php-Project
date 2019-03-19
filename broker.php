@@ -1,10 +1,7 @@
 <?php
     require_once 'function/function.php';
-   
-    $uri = sanitizaInput($cosa);
-    var_dump($uri);
+    require_once 'function/functionDB.php';
     $uri = sanitizaInput($_REQUEST['uriPage']);
-    var_dump($uri);
     switch ($uri){
         case '/test/project/crearusuario.php': 
             $txtPass = sanitizaInput($_REQUEST["txtPass"]);
@@ -24,15 +21,29 @@
                 crearSesion($user, $pass);
                 preferenciasDefecto();
                 $strParam="msj=Login Exitoso";
-                $uriPagina="mensaje.php";
+                $uriPagina="inicio.php";
             } else {
                 $intento++;
-                $uriPagina="index.php?";
-                $strParam = "intentos=$intento;&msj=Usuario/contraseña incorrecto";
+                $uriPagina="inicio.php?";
+            }
+            break;
+        case 'insUser';
+            $email = sanitizaInput($_REQUEST["email"]);
+            $user = sanitizaInput($_REQUEST["user"]);
+            $Apat = sanitizaInput($_REQUEST["Apat"]);
+            $Amat = sanitizaInput($_REQUEST["Amat"]);
+            $Nomb = sanitizaInput($_REQUEST["Nomb"]);
+            $pass = sanitizaInput($_REQUEST["pass"]);
+            $bolInsert = insUser( dbCon(), $Apat, $Amat, $Nomb,$email, $pass, $user );
+            if($bolInsert){
+                $uriPagina="inicio.php?";
+            }else{
+                $strParam="Error al insertar";
+                $uriPagina="mensaje.php";
             }
             break;
         default:
-            $strParam="No entro";
+            $strParam=$uri;
             $uriPagina="mensaje.php";
             break;
     }

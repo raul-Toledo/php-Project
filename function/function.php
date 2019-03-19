@@ -64,8 +64,13 @@ function login($user, $pass, $try){
     return $flag;
 }
 
-function navegar($url,$param){
-    header("Location: $url?$param");
+function navegar($url,$param = null){
+    if(!$param){
+        header("Location: $url");
+    }
+    else{
+     header("Location: $url?$param");
+     }
 }
 
 function preferenciasDefecto(){

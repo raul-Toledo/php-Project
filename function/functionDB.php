@@ -1,5 +1,4 @@
-<?php
-
+ <?php
 function dbCon(){
     $dbHost="localhost";
     $dbUser="root";
@@ -15,8 +14,18 @@ function dbCon(){
     return $conn;
 }
 
-function login($con, $user, $pass, $key=null){
-    #$query = "SELECT idUser, strLogin FROM ssLogin WHERE strPassword=SHA('$pass') and strLogin = '$user';";
+function insUser($con, $strPat, $strMat, $strNom, $strEmail, $strPass, $strUser ){
+        
+    $query = "CALL insUser('$strPat', '$strMat', '$strNom', '$strEmail', '$strPass', '$strUser');";
+    
+    $dataSet = mysqli_query($con, $query);
+    $row = mysqli_fetch_assoc($dataSet);
+    return true;
+}
+
+function loginDB($con, $user, $pass, $key=null){
+    #$query = "SELECT idUser, strLogin FROM ssLogin WHERE 
+    #strPassword=SHA('$pass') and strLogin = '$user';";
     $query = "CALL spLogin('$user', '$pass');";
     
     $dataSet = mysqli_query($con, $query);
@@ -31,10 +40,4 @@ function login($con, $user, $pass, $key=null){
         $_SESSION['password']="";
     }
     return $flag;
-}
-
-if(login(dbCon(),"ratp","123456789")){
-    echo "Bienvenido: " . $_SESSION['user'];
-} else {
-    echo "acceso no autorizado";
 }
