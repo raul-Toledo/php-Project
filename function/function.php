@@ -51,14 +51,15 @@ function cerrarSesion(){
 
 function login($user, $pass, $try){
     $u = sanitizaInput($user);
-    $p = sanitizaInput($pass);
+    $p = password_hash(sanitizaInput($pass), PASSWORD_DEFAULT);
+    $i = sanitizaInput($try);
     if(is_int($try)){
-       $try = sanitizaInput($i); 
+       $try = $i;
     } else {
         $try = 0;
     }
     $flag = false;
-    if ($u == 'raul' && $p=='123' && $try <4){
+    if ($u == 'raul' && password_verify($p, password_hash('123'))  && $try <4){
         $flag = true;
     } 
     return $flag;
