@@ -3,6 +3,12 @@
     require_once 'function/functionDB.php';
     $uri = sanitizaInput($_REQUEST['uriPage']);
     switch ($uri){
+        case 'borrarArchivo':
+            $archivo= $_REQUEST['file'];
+            borrarArchivo($archivo, './data');
+            $strParam="msj=Validación Completa";
+            $uriPagina="practicaArchivos.php";
+            break;
         case '/test/project/crearusuario.php': 
             $txtPass = sanitizaInput($_REQUEST["txtPass"]);
             $txtEmail = sanitizaInput($_REQUEST["txtEmail"]);

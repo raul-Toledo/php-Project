@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <?php
+if(isset($_REQUEST['txtUser'])){
     $txtUser =$_REQUEST['txtUser'];
     $intIntento = $_REQUEST['intentos'];
     $txtClave = $_REQUEST['txtPass'];
     if($intIntento > 3){
         header("Location: noAcceso.html", true, 301);
     }
+} else {
+    $txtUser = '';
+    $intIntento=0;
+    $txtClave='';
+}
 ?>
 
 <html>
@@ -33,14 +39,14 @@
                    maxlength="18"
                    placeholder="Usuario"
                    required="required"
-                   value="<?php echo $txtUser;?>"/>
+                   value="<?=$txtUser;?>"/>
             <span class="entypo-key inputPassIcon">
                <i class="fa fa-key"></i>
              </span>
             <input type="password" class="pass" name="txtPass"
                    required="required" 
                    placeholder="Contraseña"/>
-            <input type="hidden" value="<?php echo $intIntento;?>" 
+            <input type="hidden" value="<?=$intIntento;?>"
                    name="intentos"/>  
             <input id="uriPage" name="uriPage" type="hidden" value="<?=$_SERVER["REQUEST_URI"]?>"/>
           </form>

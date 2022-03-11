@@ -9,17 +9,33 @@
     </head>
     <body>
         <?php
-        //$ruta = __DIR__.'\data';
-        //$file = "datos.txt";
-        //$contenido = "spider-verse";
-        //echo $ruta;
-        //var_dump(crearDirectorio("data","0777",__DIR__));
-        //var_dump(crearArchivo($file, "a+", $ruta ));
-        //var_dump(leerArchivo($file, $ruta));
-        //var_dump(borrarArchivo($file, $ruta)); 
-        //$flag = escribirArchivo($file, $contenido, $ruta);
-        ?>
-        <?php 
+        $ruta = __DIR__.'\data';
+        if(!is_dir($ruta)){
+            mkdir($ruta, 0777);
+        } else {
+            echo "Si existe.... adios";
+        }        
+        $file = "datos.txt"; 
+        $contenido = "No esta muerto aquello que yace eternamente, y en los eones por venir incluso la muerte puede morir";
+        if(file_exists($ruta.'\\'.$file)){
+            $archivo = fopen($ruta.'\\'.$file,  "a+");
+            fwrite($archivo,$contenido);
+            fwrite($archivo,"\n");
+        } else {
+            $archivo = fopen($ruta.'\\'.$file,  "w");
+            fwrite($archivo, $contenido."\\n");
+        }       
+        fclose($archivo);
+        $ruta = __DIR__.'\data';
+        $file = "datos.txt"; 
+        $archivo = fopen($ruta.'\\'.$file,  "r");
+        while(!feof($archivo)) {
+            echo fgetss($archivo, 4096);
+            echo "<br>";
+          } 
+          fclose($archivo); 
+        
+        /* 
             $ruta = './img';
             $dir = opendir($ruta);
             if ($dir){
@@ -32,6 +48,6 @@
                 }
             }
         
-        ?>
+        */?>
     </body>
 </html>

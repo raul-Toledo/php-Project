@@ -21,13 +21,9 @@ function sanitizaInput($v){
             case "object":
                 $dato = (object)$v;
                 break;
-            case "resource":
-                $dato = false;
-                break;
             case "NULL":
-                $dato = (unset)$v;
-                break;
             case "unknown type":
+            case "resource":
                 $dato = false;
                 break;
         }
